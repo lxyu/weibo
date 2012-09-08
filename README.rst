@@ -56,5 +56,5 @@ Weibo
 
 ::
 
-    >>> c.get('users/show', uid=1880945940)
+    >>> c.get('users/show', uid=1282440983)
     >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.com/weibo/')
