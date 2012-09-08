@@ -80,16 +80,24 @@ class Client(object):
         self.session = requests.session(
             params={'access_token': self.access_token})
 
+    def _assert_error(self, d):
+        if 'error_code' in d and 'error' in d:
+            raise RuntimeError("%s: %s" % (d['error_code'], d['error']))
+
     def get(self, uri, **kwargs):
         """
         Request resource by get method.
         """
         url = "%s%s.json" % (self.api_url, uri)
-        return self.session.get(url, params=kwargs).text
+        res = json.loads(self.session.get(url, params=kwargs).text)
+        self._assert_error(res)
+        return res
 
     def post(self, uri, **kwargs):
         """
         Request resource by post method.
         """
         url = "%s%s.json" % (self.api_url, uri)
-        return self.session.post(url, data=kwargs).text
+        res = json.loads(self.session.post(url, data=kwargs).text)
+        self._assert_error(res)
+        return res
