@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Weibo by lxyu</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Weibo</h1>
+        <p>Python sina weibo sdk. More simpler and cleaner than the official one.</p>
+
+        <p class="view"><a href="https://github.com/lxyu/weibo">View the Project on GitHub <small>lxyu/weibo</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/lxyu/weibo/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/lxyu/weibo/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/lxyu/weibo">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Weibo</h1>
+
+<p>新浪微博 Python SDK.</p>
+
+<p>使用 <code>requests</code> 进行相关网络操作，因而相对于官方的 sdk，极大的简化了代码，并提高了可读性。</p>
+
+<h2>包依赖</h2>
+
+<ul>
+<li><a href="http://docs.python-requests.org">requests</a></li>
+</ul><h2>安装</h2>
+
+<p>推荐使用 <code>pip</code> 安装。</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>pip install weibo
+</pre></div>
+
+<h1>使用说明</h1>
+
+<h2>准备工作</h2>
+
+<ul>
+<li><p>首先，注册一个新浪开发者帐号，并在 <a href="http://open.weibo.com/apps">新浪开发平台</a> 新建一个 app.</p></li>
+<li><p>创建好应用之后在 '应用信息 -&gt; '基本信息' 里面获取 <code>App Key</code> 和 <code>App Secret</code>.</p></li>
+<li><p>在 '应用信息 -&gt; '高级信息' 里面设置好 '授权回调页'.</p></li>
+</ul><h2>示例</h2>
+
+<p>下面分别用 <code>API_KEY</code>, <code>API_SECRET</code>, <code>REDIRECT_URI</code> 代表准备工作里面的三个参数。</p>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">weibo</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">API_KEY</span><span class="p">,</span> <span class="n">API_SECRET</span><span class="p">,</span> <span class="n">REDIRECT_URI</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">authorize_url</span>
+<span class="s">'https://api.weibo.com/oauth2/authorize?redirect_uri=http%3A</span><span class="si">%2F%2F</span><span class="s">127.0.0.1</span><span class="si">%2F</span><span class="s">callback&amp;client_id=123456'</span>
+</pre></div>
+
+<p>复制链接到浏览器打开，获取 code.</p>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">set_code</span><span class="p">(</span><span class="s">'abcdefghijklmn'</span><span class="p">)</span>
+</pre></div>
+
+<p>至此 client 初始化完成。 参考 <a href="http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2">微博开发文档</a> 进行接口调用。</p>
+
+<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'users/show'</span><span class="p">,</span> <span class="n">uid</span><span class="o">=</span><span class="mi">1880945940</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s">'statuses/update'</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s">'python sdk test, check out http://lxyu.github.com/weibo/'</span><span class="p">)</span>
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/lxyu">lxyu</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-34552833-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
