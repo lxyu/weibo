@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='weibo',
-    version='0.1.0',
+    version='0.1.1',
     description='Python sina weibo sdk',
     author='Lx Yu',
     author_email='lixinfish@gmail.com',
@@ -14,4 +14,7 @@ setup(
     url='http://lxyu.github.com/weibo/',
     license=open('LICENSE').read(),
     long_description=open('README.rst').read(),
+    install_requires=[
+        "requests",
+    ],
 )
