@@ -63,11 +63,20 @@ class Client(object):
             return False
 
     def set_code(self, authorization_code):
+        """
+        Activate client by authorization_code.
+        """
         tk = self._get_token_by_code(authorization_code)
-        self.access_token = tk['access_token']
-        self.expires_in = time.time() + int(tk['expires_in'])
         self.uid = tk['uid']
+        self.expires_in = time.time() + int(tk['expires_in'])
 
+        self.set_token(tk['access_token'])
+
+    def set_token(self, access_token):
+        """
+        Directly activate client by access_token.
+        """
+        self.access_token = access_token
         self.session = requests.session(
             params={'access_token': self.access_token})
 
