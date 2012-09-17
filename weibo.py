@@ -41,8 +41,9 @@ class Client(object):
             'client_secret': self.client_secret,
             'grant_type': 'authorization_code',
             'code': authorization_code,
-            'redirect_uri': self.redirect_uri,
-            }
+            'redirect_uri': self.redirect_uri
+        }
+
         response = requests.post(self.token_url, data=params)
 
         return json.loads(response.content)
@@ -51,9 +52,20 @@ class Client(object):
     def authorize_url(self):
         params = {
             'client_id': self.client_id,
-            'redirect_uri': self.redirect_uri,
-            }
+            'redirect_uri': self.redirect_uri
+        }
+
         return '%s?%s' % (self.authorization_url, urllib.urlencode(params))
+
+    @property
+    def token_info(self):
+        tk_info = {
+            'uid': self.uid,
+            'access_token': self.access_token,
+            'expires_in': self.expires_in
+        }
+
+        return tk_info
 
     @property
     def alive(self):
