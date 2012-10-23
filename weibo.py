@@ -18,7 +18,8 @@ import requests
 
 
 class Client(object):
-    def __init__(self, api_key, api_secret, redirect_uri, code=None):
+    def __init__(self, api_key, api_secret, redirect_uri,
+                 access_token=None, expires_at=None):
         # const define
         self.site = 'https://api.weibo.com/'
         self.authorization_url = self.site + 'oauth2/authorize'
@@ -31,13 +32,12 @@ class Client(object):
         self.redirect_uri = redirect_uri
 
         self.access_token = None
-        self.expires_in = None
-        self.uid = None
+        self.expires_at = None
         self.session = None
 
-        # activate client directly if given authorization_code
-        if code:
-            self.set_code(code)
+        # activate client directly if given acccess_token and expires_at
+        if access_token and expires_at:
+            self.set_token(access_token, expires_at)
 
     @property
     def authorize_url(self):
@@ -45,23 +45,22 @@ class Client(object):
             'client_id': self.client_id,
             'redirect_uri': self.redirect_uri
         }
-
         return '%s?%s' % (self.authorization_url, urllib.urlencode(params))
 
     @property
     def token_info(self):
-        tk_info = {
-            'uid': self.uid,
+        """
+        This token_info can be stored to directly activate client at next time.
+        """
+        return {
             'access_token': self.access_token,
-            'expires_in': self.expires_in
+            'expires_at': self.expires_at
         }
-
-        return tk_info
 
     @property
     def alive(self):
-        if self.expires_in:
-            return self.expires_in > time.time()
+        if self.expires_at:
+            return self.expires_at > time.time()
         else:
             return False
 
@@ -80,17 +79,14 @@ class Client(object):
         tk = json.loads(response.content)
 
         self._assert_error(tk)
+        self.set_token(tk['access_token'], time.time() + int(tk['expires_in']))
 
-        self.uid = tk['uid']
-        self.expires_in = time.time() + int(tk['expires_in'])
-
-        self.set_token(tk['access_token'])
-
-    def set_token(self, access_token):
+    def set_token(self, access_token, expires_at):
         """
         Directly activate client by access_token.
         """
         self.access_token = access_token
+        self.expires_at = expires_at
         self.session = requests.session(
             params={'access_token': self.access_token})
 
