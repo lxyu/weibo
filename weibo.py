@@ -18,7 +18,7 @@ import requests
 
 
 class Client(object):
-    def __init__(self, api_key, api_secret, redirect_uri):
+    def __init__(self, api_key, api_secret, redirect_uri, code=None):
         # const define
         self.site = 'https://api.weibo.com/'
         self.authorization_url = self.site + 'oauth2/authorize'
@@ -35,18 +35,9 @@ class Client(object):
         self.uid = None
         self.session = None
 
-    def _get_token_by_code(self, authorization_code):
-        params = {
-            'client_id': self.client_id,
-            'client_secret': self.client_secret,
-            'grant_type': 'authorization_code',
-            'code': authorization_code,
-            'redirect_uri': self.redirect_uri
-        }
-
-        response = requests.post(self.token_url, data=params)
-
-        return json.loads(response.content)
+        # activate client directly if given authorization_code
+        if code:
+            self.set_code(code)
 
     @property
     def authorize_url(self):
@@ -78,7 +69,18 @@ class Client(object):
         """
         Activate client by authorization_code.
         """
-        tk = self._get_token_by_code(authorization_code)
+        params = {
+            'client_id': self.client_id,
+            'client_secret': self.client_secret,
+            'grant_type': 'authorization_code',
+            'code': authorization_code,
+            'redirect_uri': self.redirect_uri
+        }
+        response = requests.post(self.token_url, data=params)
+        tk = json.loads(response.content)
+
+        self._assert_error(tk)
+
         self.uid = tk['uid']
         self.expires_in = time.time() + int(tk['expires_in'])
 
