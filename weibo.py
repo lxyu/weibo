@@ -18,7 +18,7 @@ import requests
 
 
 class Client(object):
-    def __init__(self, api_key, api_secret, redirect_uri,
+    def __init__(self, api_key, api_secret, redirect_uri, uid=None,
                  access_token=None, expires_at=None):
         # const define
         self.site = 'https://api.weibo.com/'
@@ -30,9 +30,9 @@ class Client(object):
         self.client_id = api_key
         self.client_secret = api_secret
         self.redirect_uri = redirect_uri
-
-        self.access_token = None
-        self.expires_at = None
+        self.uid = uid
+        self.access_token = access_token
+        self.expires_at = expires_at
         self.session = None
 
         # activate client directly if given acccess_token and expires_at
@@ -53,6 +53,7 @@ class Client(object):
         This token_info can be stored to directly activate client at next time.
         """
         return {
+            'uid': self.uid,
             'access_token': self.access_token,
             'expires_at': self.expires_at
         }
