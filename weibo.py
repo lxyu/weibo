@@ -93,8 +93,7 @@ class Client(object):
 
     def _assert_error(self, d):
         if 'error_code' in d and 'error' in d:
-            raise RuntimeError("[%s] %s, %s" % (
-                d['error_code'], d['error'], d['error_description']))
+            raise RuntimeError("[%s] %s" % (d['error_code'], d['error']))
 
     def get(self, uri, **kwargs):
         """
