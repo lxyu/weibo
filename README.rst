@@ -66,3 +66,10 @@ client 的 token 可以被保存下来供下次调用时直接使用。
     >>> token = c.token
     >>> c2 = Client(API_KEY, API_SECRET, REDIRECT_URI, token)
     >>> c2.get('users/show', uid=2703275934)
+
+client 兼容上传图片接口。
+
+::
+
+	>>> f = open('avatar.png', 'rb')
+	>>> c.post('statuses/upload', status='new avatar!', pic=f)
