@@ -11,7 +11,7 @@ setup(
     author_email='lixinfish@gmail.com',
     py_modules=['weibo', ],
     package_data={'': ['LICENSE'], },
-    url='http://lxyu.github.com/weibo/',
+    url='http://lxyu.github.io/weibo/',
     license=open('LICENSE').read(),
     long_description=open('README.rst').read(),
     install_requires=[

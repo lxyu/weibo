@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-Python sina weibo sdk.
+"""Python sina weibo sdk.
 
 Rely on `requests` to do the dirty work, so it's much simpler and cleaner
 than the official SDK.
@@ -18,8 +17,7 @@ import requests
 
 
 class Client(object):
-    def __init__(self, api_key, api_secret, redirect_uri, uid=None,
-                 access_token=None, expires_at=None):
+    def __init__(self, api_key, api_secret, redirect_uri, token=None):
         # const define
         self.site = 'https://api.weibo.com/'
         self.authorization_url = self.site + 'oauth2/authorize'
@@ -30,14 +28,12 @@ class Client(object):
         self.client_id = api_key
         self.client_secret = api_secret
         self.redirect_uri = redirect_uri
-        self.uid = uid
-        self.access_token = access_token
-        self.expires_at = expires_at
-        self.session = None
 
-        # activate client directly if given acccess_token and expires_at
-        if access_token and expires_at:
-            self.set_token(access_token, expires_at)
+        self.session = requests.session()
+
+        # activate client directly if given token
+        if token:
+            self.set_token(token)
 
     @property
     def authorize_url(self):
@@ -45,18 +41,8 @@ class Client(object):
             'client_id': self.client_id,
             'redirect_uri': self.redirect_uri
         }
-        return '%s?%s' % (self.authorization_url, urllib.urlencode(params))
-
-    @property
-    def token_info(self):
-        """
-        This token_info can be stored to directly activate client at next time.
-        """
-        return {
-            'uid': self.uid,
-            'access_token': self.access_token,
-            'expires_at': self.expires_at
-        }
+        return "{0}?{1}".format(
+            self.authorization_url, urllib.urlencode(params))
 
     @property
     def alive(self):
@@ -66,8 +52,7 @@ class Client(object):
             return False
 
     def set_code(self, authorization_code):
-        """
-        Activate client by authorization_code.
+        """Activate client by authorization_code.
         """
         params = {
             'client_id': self.client_id,
@@ -76,39 +61,43 @@ class Client(object):
             'code': authorization_code,
             'redirect_uri': self.redirect_uri
         }
-        response = requests.post(self.token_url, data=params)
-        tk = json.loads(response.content)
+        res = requests.post(self.token_url, data=params)
+        token = json.loads(res.text)
+        self._assert_error(token)
 
-        self._assert_error(tk)
-        self.set_token(tk['access_token'], time.time() + int(tk['expires_in']))
+        token[u'expires_at'] = int(time.time()) + int(token.pop(u'expires_in'))
+        self.set_token(token)
 
-    def set_token(self, access_token, expires_at):
+    def set_token(self, token):
+        """Directly activate client by access_token.
         """
-        Directly activate client by access_token.
-        """
-        self.access_token = access_token
-        self.expires_at = expires_at
-        self.session = requests.session()
+        self.token = token
+
+        self.uid = token['uid']
+        self.access_token = token['access_token']
+        self.expires_at = token['expires_at']
+
         self.session.params = {'access_token': self.access_token}
 
     def _assert_error(self, d):
+        """Assert if json response is error.
+        """
         if 'error_code' in d and 'error' in d:
-            raise RuntimeError("[%s] %s" % (d['error_code'], d['error']))
+            raise RuntimeError("{0} {1}".format(
+                d.get("error_code", ""), d.get("error", "")))
 
     def get(self, uri, **kwargs):
+        """Request resource by get method.
         """
-        Request resource by get method.
-        """
-        url = "%s%s.json" % (self.api_url, uri)
+        url = "{0}{1}.json".format(self.api_url, uri)
         res = json.loads(self.session.get(url, params=kwargs).text)
         self._assert_error(res)
         return res
 
     def post(self, uri, **kwargs):
+        """Request resource by post method.
         """
-        Request resource by post method.
-        """
-        url = "%s%s.json" % (self.api_url, uri)
+        url = "{0}{1}.json".format(self.api_url, uri)
         res = json.loads(self.session.post(url, data=kwargs).text)
         self._assert_error(res)
         return res

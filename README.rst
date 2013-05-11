@@ -57,4 +57,12 @@ Weibo
 ::
 
     >>> c.get('users/show', uid=1282440983)
-    >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.com/weibo/')
+    >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.io/weibo/')
+
+client 的 token 可以被保存下来供下次调用时直接使用。
+
+::
+
+    >>> token = c.token
+    >>> c2 = Client(API_KEY, API_SECRET, REDIRECT_URI, token)
+    >>> c2.get('users/show', uid=2703275934)
