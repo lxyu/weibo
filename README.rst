@@ -17,7 +17,7 @@ Weibo
 
 推荐使用 `pip` 安装。
 
-::
+.. code:: bash
 
     $ pip install weibo
 
@@ -38,7 +38,7 @@ Weibo
 
 下面分别用 `API_KEY`, `API_SECRET`, `REDIRECT_URI` 代表准备工作里面的三个参数。
 
-::
+.. code:: python
 
     >>> from weibo import Client
     >>> c = Client(API_KEY, API_SECRET, REDIRECT_URI)
@@ -47,21 +47,21 @@ Weibo
 
 复制链接到浏览器打开，获取 code.
 
-::
+.. code:: python
 
     >>> c.set_code('abcdefghijklmn')
 
 
 至此 client 初始化完成。 参考 `微博开发文档 <http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2>`_ 进行接口调用。
 
-::
+.. code:: python
 
     >>> c.get('users/show', uid=1282440983)
     >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.io/weibo/')
 
 client 的 token 可以被保存下来供下次调用时直接使用。
 
-::
+.. code:: python
 
     >>> token = c.token
     >>> c2 = Client(API_KEY, API_SECRET, REDIRECT_URI, token)
@@ -69,7 +69,7 @@ client 的 token 可以被保存下来供下次调用时直接使用。
 
 client 兼容上传图片接口。
 
-::
+.. code:: python
 
 	>>> f = open('avatar.png', 'rb')
 	>>> c.post('statuses/upload', status='new avatar!', pic=f)
