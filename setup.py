@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     name='weibo',
-    version='0.1.7',
+    version='0.1.8',
     description='Python sina weibo sdk',
     author='Lx Yu',
     author_email='lixinfish@gmail.com',
