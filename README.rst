@@ -1,6 +1,13 @@
 Weibo
 =====
 
+.. image:: https://badge.fury.io/py/weibo.png
+    :target: http://badge.fury.io/py/weibo
+
+.. image:: https://pypip.in/d/weibo/badge.png
+    :target: https://crate.io/packages/weibo/
+
+
 新浪微博 python SDK.
 
 使用 `requests` 进行相关网络操作，因而相对于官方的 sdk，极大的简化了代码，并提高了可读性。
