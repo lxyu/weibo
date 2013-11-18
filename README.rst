@@ -2,10 +2,14 @@ Weibo
 =====
 
 .. image:: https://badge.fury.io/py/weibo.png
-    :target: http://badge.fury.io/py/weibo
+   :target: http://badge.fury.io/py/weibo
 
 .. image:: https://pypip.in/d/weibo/badge.png
-    :target: https://crate.io/packages/weibo/
+   :target: https://crate.io/packages/weibo/
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/lxyu/weibo/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
 
 
 新浪微博 python SDK.
