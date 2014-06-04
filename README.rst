@@ -1,15 +1,11 @@
 Weibo
 =====
 
-.. image:: https://badge.fury.io/py/weibo.png
-   :target: http://badge.fury.io/py/weibo
+.. image:: http://img.shields.io/pypi/v/weibo.svg?style=flat
+   :target: https://pypi.python.org/pypi/weibo
 
-.. image:: https://pypip.in/d/weibo/badge.png
-   :target: https://crate.io/packages/weibo/
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/lxyu/weibo/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
+.. image:: http://img.shields.io/pypi/dm/weibo.svg?style=flat
+   :target: https://pypi.python.org/pypi/weibo
 
 
 新浪微博 python SDK.
@@ -82,5 +78,5 @@ client 兼容上传图片接口。
 
 .. code:: python
 
-	>>> f = open('avatar.png', 'rb')
-	>>> c.post('statuses/upload', status='new avatar!', pic=f)
+    >>> f = open('avatar.png', 'rb')
+    >>> c.post('statuses/upload', status='new avatar!', pic=f)

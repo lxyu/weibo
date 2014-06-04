@@ -8,11 +8,11 @@ setup(
     version='0.2.0',
     description='Python sina weibo sdk',
     author='Lx Yu',
-    author_email='lixinfish@gmail.com',
+    author_email='github@lxyu.net',
     py_modules=['weibo', ],
     package_data={'': ['LICENSE'], },
     url='http://lxyu.github.io/weibo/',
-    license=open('LICENSE').read(),
+    license="BSD",
     long_description=open('README.rst').read(),
     install_requires=[
         "requests",

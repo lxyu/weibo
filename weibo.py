@@ -6,7 +6,7 @@ Rely on `requests` to do the dirty work, so it's much simpler and cleaner
 than the official SDK.
 
 For more info, refer to:
-http://lxyu.github.com/weibo/
+http://lxyu.github.io/weibo/
 """
 
 import json
