@@ -8,7 +8,6 @@ than the official SDK.
 For more info, refer to:
 http://lxyu.github.io/weibo/
 """
-
 import json
 import time
 import urllib
@@ -17,7 +16,7 @@ import requests
 
 
 class Client(object):
-    def __init__(self, api_key, api_secret, redirect_uri, token=None):
+    def __init__(self, api_key, api_secret, redirect_uri, token=None, user=None, password=None):
         # const define
         self.site = 'https://api.weibo.com/'
         self.authorization_url = self.site + 'oauth2/authorize'
@@ -28,6 +27,8 @@ class Client(object):
         self.client_id = api_key
         self.client_secret = api_secret
         self.redirect_uri = redirect_uri
+        self.user = user
+        self.password = password
 
         self.session = requests.session()
 
@@ -90,7 +91,9 @@ class Client(object):
         """Request resource by get method.
         """
         url = "{0}{1}.json".format(self.api_url, uri)
-        res = json.loads(self.session.get(url, params=kwargs).text)
+        auth=(self.user,self.password) if self.user and self.password else None
+        kwargs['source'] = self.client_id
+        res = json.loads(self.session.get(url, params=kwargs, auth=auth).text)
         self._assert_error(res)
         return res
 
@@ -98,12 +101,16 @@ class Client(object):
         """Request resource by post method.
         """
         url = "{0}{1}.json".format(self.api_url, uri)
+        auth=(self.user,self.password) if self.user and self.password else None
+        kwargs['source'] = self.client_id
         if "pic" not in kwargs:
-            res = json.loads(self.session.post(url, data=kwargs).text)
+            res = json.loads(self.session.post(url, data=kwargs, 
+                auth=auth).text)
         else:
             files = {"pic": kwargs.pop("pic")}
             res = json.loads(self.session.post(url,
                                                data=kwargs,
-                                               files=files).text)
+                                               files=files,
+                                               auth=auth).text)
         self._assert_error(res)
         return res
