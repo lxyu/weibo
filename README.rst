@@ -13,12 +13,6 @@ Weibo
 使用 `requests` 进行相关网络操作，因而相对于官方的 sdk，极大的简化了代码，并提高了可读性。
 
 
-包依赖
-------
-
-- `requests <http://docs.python-requests.org>`_
-
-
 安装
 ----
 
@@ -31,6 +25,7 @@ Weibo
 
 使用说明
 --------
+
 准备工作
 ~~~~~~~~
 
@@ -44,6 +39,10 @@ Weibo
 ~~~~
 
 下面分别用 `API_KEY`, `API_SECRET`, `REDIRECT_URI` 代表准备工作里面的三个参数。
+
+
+Token 认证
+""""""""""
 
 .. code:: python
 
@@ -59,20 +58,34 @@ Weibo
     >>> c.set_code('abcdefghijklmn')
 
 
-至此 client 初始化完成。 参考 `微博开发文档 <http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2>`_ 进行接口调用。
-
-.. code:: python
-
-    >>> c.get('users/show', uid=1282440983)
-    >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.io/weibo/')
-
-client 的 token 可以被保存下来供下次调用时直接使用。
+client 初始化完成。token 可以被保存下来供下次调用时直接使用。
 
 .. code:: python
 
     >>> token = c.token
     >>> c2 = Client(API_KEY, API_SECRET, REDIRECT_URI, token)
     >>> c2.get('users/show', uid=2703275934)
+
+帐号认证
+""""""""
+
+除了使用 token 认证，还可以使用 username / password 进行认证。
+
+.. code:: python
+
+    >>> from weibo import Client
+    >>> c = Client(API_KEY, API_SECRET, REDIRECT_URI, username='admin', password='secret')
+    >>> c.get('users/show', uid=1282440983)
+
+接口调用
+""""""""
+
+参考 `微博开发文档 <http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2>`_ 进行接口调用。
+
+.. code:: python
+
+    >>> c.get('users/show', uid=1282440983)
+    >>> c.post('statuses/update', status='python sdk test, check out http://lxyu.github.io/weibo/')
 
 client 兼容上传图片接口。
 
