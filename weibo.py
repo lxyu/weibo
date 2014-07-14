@@ -30,7 +30,7 @@ class Client(object):
 
         self.session = requests.session()
         if username and password:
-            self.session.auth = (username, password)
+            self.session.auth = username, password
 
         # activate client directly if given token
         if token:
