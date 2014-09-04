@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup
 
 setup(
     name='weibo',
-    version='0.2.1',
+    version='0.2.2',
     description='Python sina weibo sdk',
     author='Lx Yu',
     author_email='i@lxyu.net',
@@ -14,7 +14,7 @@ setup(
     license="BSD",
     long_description=open('README.rst').read(),
     install_requires=[
-        "requests>=2.3.0",
+        "requests>=2.4.0",
     ],
     classifiers=[
         "Topic :: Software Development",
