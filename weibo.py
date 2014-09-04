@@ -9,9 +9,15 @@ For more info, refer to:
 http://lxyu.github.io/weibo/
 """
 
+from __future__ import absolute_import
+
+try:
+    from urllib.parse import urlencode
+except ImportError:
+    from urllib import urlencode
+
 import json
 import time
-import urllib
 
 import requests
 
@@ -44,8 +50,7 @@ class Client(object):
             'client_id': self.client_id,
             'redirect_uri': self.redirect_uri
         }
-        return "{0}?{1}".format(
-            self.authorization_url, urllib.urlencode(params))
+        return "{0}?{1}".format(self.authorization_url, urlencode(params))
 
     @property
     def alive(self):
